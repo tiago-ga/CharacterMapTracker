@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE809BDD-921B-4A31-9BF4-B0834BD27923}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CharacterMapTracker</RootNamespace>
+    <AssemblyName>CharacterMapTracker</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\MapData.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="Services\PathingMarkerLoader.cs" />
+    <Compile Include="Services\Gw2ApiHelper.cs" />
+    <Compile Include="UI\MainWindow.cs" />
+    <Compile Include="UI\TrackerWindow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AsyncClipboardService, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AsyncClipboardService.1.7.1\lib\net45\AsyncClipboardService.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Blish HUD, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BlishHUD.1.2.0\lib\net472\Blish HUD.exe</HintPath>
+    </Reference>
+    <Reference Include="Gw2Sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Gw2Sharp.1.7.4\lib\netstandard2.0\Gw2Sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Win32.Primitives" />
+    <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoGame.Extended.3.8.0\lib\netstandard2.0\MonoGame.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.8.0.1641, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoGame.Framework.WindowsDX.3.8.0.1641\lib\net452\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>packages\NAudio.Core.2.0.0\lib\netstandard2.0\NAudio.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Wasapi, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>packages\NAudio.Wasapi.2.0.0\lib\netstandard2.0\NAudio.Wasapi.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.Direct3D9.4.0.1\lib\net45\SharpDX.Direct3D9.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.Mathematics.4.0.1\lib\net45\SharpDX.Mathematics.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.MediaFoundation.4.0.1\lib\net45\SharpDX.MediaFoundation.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.XAudio2.4.0.1\lib\net45\SharpDX.XAudio2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Console" />
+    <Reference Include="System.Diagnostics.Tracing" />
+    <Reference Include="System.Globalization.Calendars" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.ZipFile" />
+    <Reference Include="System.IO.FileSystem" />
+    <Reference Include="System.IO.FileSystem.Primitives" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Linq.Expressions" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Sockets" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Resources.Extensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Resources.Extensions.6.0.0\lib\net461\System.Resources.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions" />
+    <Reference Include="System.Runtime.InteropServices" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
+    <Reference Include="System.Security.Cryptography.Algorithms" />
+    <Reference Include="System.Security.Cryptography.Encoding" />
+    <Reference Include="System.Security.Cryptography.Primitives" />
+    <Reference Include="System.Security.Cryptography.X509Certificates" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Primitives, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.ServiceModel.Primitives.4.9.0\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.5.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.5.0.0\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.ReaderWriter" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ref\_instructions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ref\icons\completeHeroPoint.png" />
+    <Content Include="ref\icons\emptyHeart.png" />
+    <Content Include="ref\icons\emptyLandmark.png" />
+    <Content Include="ref\icons\emptyVista.png" />
+    <Content Include="ref\icons\emptyWaypoint.png" />
+    <Content Include="ref\icons\filledHeart.png" />
+    <Content Include="ref\icons\filledLandmark.png" />
+    <Content Include="ref\icons\filledVista.png" />
+    <Content Include="ref\icons\filledWaypoint.png" />
+    <Content Include="ref\icons\incompleteHeroPoint.png" />
+    <Content Include="ref\markers\map1015.xml" />
+    <Content Include="ref\markers\map1021.xml" />
+    <Content Include="ref\markers\map1022.xml" />
+    <Content Include="ref\markers\map1023.xml" />
+    <Content Include="ref\markers\map1037.xml" />
+    <Content Include="ref\markers\map1041.xml" />
+    <Content Include="ref\markers\map1043.xml" />
+    <Content Include="ref\markers\map1045.xml" />
+    <Content Include="ref\markers\map1052.xml" />
+    <Content Include="ref\markers\map1073.xml" />
+    <Content Include="ref\markers\map1099.xml" />
+    <Content Include="ref\markers\map1110.xml" />
+    <Content Include="ref\markers\map112.xml" />
+    <Content Include="ref\markers\map1121.xml" />
+    <Content Include="ref\markers\map1124.xml" />
+    <Content Include="ref\markers\map113.xml" />
+    <Content Include="ref\markers\map1155.xml" />
+    <Content Include="ref\markers\map1158.xml" />
+    <Content Include="ref\markers\map1164.xml" />
+    <Content Include="ref\markers\map1165.xml" />
+    <Content Include="ref\markers\map1175.xml" />
+    <Content Include="ref\markers\map1177.xml" />
+    <Content Include="ref\markers\map1178.xml" />
+    <Content Include="ref\markers\map1185.xml" />
+    <Content Include="ref\markers\map1195.xml" />
+    <Content Include="ref\markers\map120.xml" />
+    <Content Include="ref\markers\map1203.xml" />
+    <Content Include="ref\markers\map1205.xml" />
+    <Content Include="ref\markers\map1206.xml" />
+    <Content Include="ref\markers\map1210.xml" />
+    <Content Include="ref\markers\map1211.xml" />
+    <Content Include="ref\markers\map1212.xml" />
+    <Content Include="ref\markers\map1226.xml" />
+    <Content Include="ref\markers\map1228.xml" />
+    <Content Include="ref\markers\map1232.xml" />
+    <Content Include="ref\markers\map1242.xml" />
+    <Content Include="ref\markers\map1248.xml" />
+    <Content Include="ref\markers\map1256.xml" />
+    <Content Include="ref\markers\map1263.xml" />
+    <Content Include="ref\markers\map1267.xml" />
+    <Content Include="ref\markers\map1271.xml" />
+    <Content Include="ref\markers\map1288.xml" />
+    <Content Include="ref\markers\map1290.xml" />
+    <Content Include="ref\markers\map1294.xml" />
+    <Content Include="ref\markers\map1301.xml" />
+    <Content Include="ref\markers\map1304.xml" />
+    <Content Include="ref\markers\map1309.xml" />
+    <Content Include="ref\markers\map1310.xml" />
+    <Content Include="ref\markers\map1315.xml" />
+    <Content Include="ref\markers\map1317.xml" />
+    <Content Include="ref\markers\map1330.xml" />
+    <Content Include="ref\markers\map1343.xml" />
+    <Content Include="ref\markers\map1349.xml" />
+    <Content Include="ref\markers\map1361.xml" />
+    <Content Include="ref\markers\map1364.xml" />
+    <Content Include="ref\markers\map1370.xml" />
+    <Content Include="ref\markers\map1371.xml" />
+    <Content Include="ref\markers\map1375.xml" />
+    <Content Include="ref\markers\map138.xml" />
+    <Content Include="ref\markers\map1384.xml" />
+    <Content Include="ref\markers\map1387.xml" />
+    <Content Include="ref\markers\map1389.xml" />
+    <Content Include="ref\markers\map139.xml" />
+    <Content Include="ref\markers\map1390.xml" />
+    <Content Include="ref\markers\map1393.xml" />
+    <Content Include="ref\markers\map1395.xml" />
+    <Content Include="ref\markers\map1396.xml" />
+    <Content Include="ref\markers\map1397.xml" />
+    <Content Include="ref\markers\map1398.xml" />
+    <Content Include="ref\markers\map1399.xml" />
+    <Content Include="ref\markers\map1403.xml" />
+    <Content Include="ref\markers\map1415.xml" />
+    <Content Include="ref\markers\map1416.xml" />
+    <Content Include="ref\markers\map1422.xml" />
+    <Content Include="ref\markers\map1427.xml" />
+    <Content Include="ref\markers\map1428.xml" />
+    <Content Include="ref\markers\map1434.xml" />
+    <Content Include="ref\markers\map1438.xml" />
+    <Content Include="ref\markers\map1442.xml" />
+    <Content Include="ref\markers\map1445.xml" />
+    <Content Include="ref\markers\map1452.xml" />
+    <Content Include="ref\markers\map1454.xml" />
+    <Content Include="ref\markers\map1457.xml" />
+    <Content Include="ref\markers\map1461.xml" />
+    <Content Include="ref\markers\map1462.xml" />
+    <Content Include="ref\markers\map1464.xml" />
+    <Content Include="ref\markers\map1467.xml" />
+    <Content Include="ref\markers\map1471.xml" />
+    <Content Include="ref\markers\map1472.xml" />
+    <Content Include="ref\markers\map1474.xml" />
+    <Content Include="ref\markers\map1482.xml" />
+    <Content Include="ref\markers\map1483.xml" />
+    <Content Include="ref\markers\map1484.xml" />
+    <Content Include="ref\markers\map1487.xml" />
+    <Content Include="ref\markers\map1488.xml" />
+    <Content Include="ref\markers\map1490.xml" />
+    <Content Include="ref\markers\map1493.xml" />
+    <Content Include="ref\markers\map15.xml" />
+    <Content Include="ref\markers\map1501.xml" />
+    <Content Include="ref\markers\map1503.xml" />
+    <Content Include="ref\markers\map1506.xml" />
+    <Content Include="ref\markers\map1507.xml" />
+    <Content Include="ref\markers\map1509.xml" />
+    <Content Include="ref\markers\map1510.xml" />
+    <Content Include="ref\markers\map1517.xml" />
+    <Content Include="ref\markers\map1522.xml" />
+    <Content Include="ref\markers\map1524.xml" />
+    <Content Include="ref\markers\map1525.xml" />
+    <Content Include="ref\markers\map1526.xml" />
+    <Content Include="ref\markers\map1532.xml" />
+    <Content Include="ref\markers\map1534.xml" />
+    <Content Include="ref\markers\map1537.xml" />
+    <Content Include="ref\markers\map1539.xml" />
+    <Content Include="ref\markers\map1543.xml" />
+    <Content Include="ref\markers\map1544.xml" />
+    <Content Include="ref\markers\map1547.xml" />
+    <Content Include="ref\markers\map1550.xml" />
+    <Content Include="ref\markers\map1551.xml" />
+    <Content Include="ref\markers\map1553.xml" />
+    <Content Include="ref\markers\map1554.xml" />
+    <Content Include="ref\markers\map1556.xml" />
+    <Content Include="ref\markers\map1557.xml" />
+    <Content Include="ref\markers\map1560.xml" />
+    <Content Include="ref\markers\map1562.xml" />
+    <Content Include="ref\markers\map1569.xml" />
+    <Content Include="ref\markers\map1571.xml" />
+    <Content Include="ref\markers\map1573.xml" />
+    <Content Include="ref\markers\map1575.xml" />
+    <Content Include="ref\markers\map1577.xml" />
+    <Content Include="ref\markers\map1580.xml" />
+    <Content Include="ref\markers\map163.xml" />
+    <Content Include="ref\markers\map17.xml" />
+    <Content Include="ref\markers\map171.xml" />
+    <Content Include="ref\markers\map172.xml" />
+    <Content Include="ref\markers\map18.xml" />
+    <Content Include="ref\markers\map19.xml" />
+    <Content Include="ref\markers\map190.xml" />
+    <Content Include="ref\markers\map191.xml" />
+    <Content Include="ref\markers\map192.xml" />
+    <Content Include="ref\markers\map195.xml" />
+    <Content Include="ref\markers\map198.xml" />
+    <Content Include="ref\markers\map20.xml" />
+    <Content Include="ref\markers\map201.xml" />
+    <Content Include="ref\markers\map21.xml" />
+    <Content Include="ref\markers\map218.xml" />
+    <Content Include="ref\markers\map22.xml" />
+    <Content Include="ref\markers\map226.xml" />
+    <Content Include="ref\markers\map23.xml" />
+    <Content Include="ref\markers\map24.xml" />
+    <Content Include="ref\markers\map248.xml" />
+    <Content Include="ref\markers\map25.xml" />
+    <Content Include="ref\markers\map26.xml" />
+    <Content Include="ref\markers\map27.xml" />
+    <Content Include="ref\markers\map28.xml" />
+    <Content Include="ref\markers\map29.xml" />
+    <Content Include="ref\markers\map30.xml" />
+    <Content Include="ref\markers\map31.xml" />
+    <Content Include="ref\markers\map32.xml" />
+    <Content Include="ref\markers\map326.xml" />
+    <Content Include="ref\markers\map327.xml" />
+    <Content Include="ref\markers\map330.xml" />
+    <Content Include="ref\markers\map336.xml" />
+    <Content Include="ref\markers\map34.xml" />
+    <Content Include="ref\markers\map35.xml" />
+    <Content Include="ref\markers\map350.xml" />
+    <Content Include="ref\markers\map364.xml" />
+    <Content Include="ref\markers\map365.xml" />
+    <Content Include="ref\markers\map37.xml" />
+    <Content Include="ref\markers\map371.xml" />
+    <Content Include="ref\markers\map372.xml" />
+    <Content Include="ref\markers\map373.xml" />
+    <Content Include="ref\markers\map374.xml" />
+    <Content Include="ref\markers\map375.xml" />
+    <Content Include="ref\markers\map376.xml" />
+    <Content Include="ref\markers\map378.xml" />
+    <Content Include="ref\markers\map38.xml" />
+    <Content Include="ref\markers\map39.xml" />
+    <Content Include="ref\markers\map460.xml" />
+    <Content Include="ref\markers\map488.xml" />
+    <Content Include="ref\markers\map489.xml" />
+    <Content Include="ref\markers\map490.xml" />
+    <Content Include="ref\markers\map492.xml" />
+    <Content Include="ref\markers\map50.xml" />
+    <Content Include="ref\markers\map502.xml" />
+    <Content Include="ref\markers\map51.xml" />
+    <Content Include="ref\markers\map53.xml" />
+    <Content Include="ref\markers\map54.xml" />
+    <Content Include="ref\markers\map61.xml" />
+    <Content Include="ref\markers\map62.xml" />
+    <Content Include="ref\markers\map633.xml" />
+    <Content Include="ref\markers\map647.xml" />
+    <Content Include="ref\markers\map648.xml" />
+    <Content Include="ref\markers\map649.xml" />
+    <Content Include="ref\markers\map65.xml" />
+    <Content Include="ref\markers\map650.xml" />
+    <Content Include="ref\markers\map651.xml" />
+    <Content Include="ref\markers\map672.xml" />
+    <Content Include="ref\markers\map684.xml" />
+    <Content Include="ref\markers\map685.xml" />
+    <Content Include="ref\markers\map691.xml" />
+    <Content Include="ref\markers\map698.xml" />
+    <Content Include="ref\markers\map702.xml" />
+    <Content Include="ref\markers\map703.xml" />
+    <Content Include="ref\markers\map71.xml" />
+    <Content Include="ref\markers\map73.xml" />
+    <Content Include="ref\markers\map807.xml" />
+    <Content Include="ref\markers\map827.xml" />
+    <Content Include="ref\markers\map828.xml" />
+    <Content Include="ref\markers\map833.xml" />
+    <Content Include="ref\markers\map865.xml" />
+    <Content Include="ref\markers\map866.xml" />
+    <Content Include="ref\markers\map872.xml" />
+    <Content Include="ref\markers\map873.xml" />
+    <Content Include="ref\markers\map881.xml" />
+    <Content Include="ref\markers\map882.xml" />
+    <Content Include="ref\markers\map895.xml" />
+    <Content Include="ref\markers\map897.xml" />
+    <Content Include="ref\markers\map899.xml" />
+    <Content Include="ref\markers\map901.xml" />
+    <Content Include="ref\markers\map91.xml" />
+    <Content Include="ref\markers\map913.xml" />
+    <Content Include="ref\markers\map915.xml" />
+    <Content Include="ref\markers\map922.xml" />
+    <Content Include="ref\markers\map929.xml" />
+    <Content Include="ref\markers\map930.xml" />
+    <Content Include="ref\markers\map931.xml" />
+    <Content Include="ref\markers\map934.xml" />
+    <Content Include="ref\markers\map935.xml" />
+    <Content Include="ref\markers\map937.xml" />
+    <Content Include="ref\markers\map943.xml" />
+    <Content Include="ref\markers\map945.xml" />
+    <Content Include="ref\markers\map947.xml" />
+    <Content Include="ref\markers\map948.xml" />
+    <Content Include="ref\markers\map949.xml" />
+    <Content Include="ref\markers\map95.xml" />
+    <Content Include="ref\markers\map950.xml" />
+    <Content Include="ref\markers\map951.xml" />
+    <Content Include="ref\markers\map952.xml" />
+    <Content Include="ref\markers\map953.xml" />
+    <Content Include="ref\markers\map954.xml" />
+    <Content Include="ref\markers\map955.xml" />
+    <Content Include="ref\markers\map956.xml" />
+    <Content Include="ref\markers\map957.xml" />
+    <Content Include="ref\markers\map958.xml" />
+    <Content Include="ref\markers\map96.xml" />
+    <Content Include="ref\markers\map964.xml" />
+    <Content Include="ref\markers\map97.xml" />
+    <Content Include="ref\markers\map973.xml" />
+    <Content Include="ref\markers\map980.xml" />
+    <Content Include="ref\markers\map987.xml" />
+    <Content Include="ref\markers\map988.xml" />
+    <Content Include="ref\UI\background156003.png" />
+    <Content Include="ref\UI\background155985.png" />
+    <Content Include="ref\UI\emblem156034.png" />
+    <Content Include="ref\UI\emblem156035.png" />
+    <Content Include="ref\UI\MenuTexture.png" />
+    <Content Include="ref\UI\TextureBlackDiminishing.png" />
+    <Content Include="ref\UI\TextureGrayDiminishing.png" />
+    <Content Include="ref\UI\trackerBackground.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties manifest_1json__JsonSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets'))" />
+    <Error Condition="!Exists('packages\BlishHUD.1.2.0\build\BlishHUD.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BlishHUD.1.2.0\build\BlishHUD.targets'))" />
+  </Target>
+  <Import Project="packages\BlishHUD.1.2.0\build\BlishHUD.targets" Condition="Exists('packages\BlishHUD.1.2.0\build\BlishHUD.targets')" />
+</Project>

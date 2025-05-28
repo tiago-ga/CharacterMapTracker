@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.36105.23 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterMapTracker", "CharacterMapTracker.csproj", "{CE809BDD-921B-4A31-9BF4-B0834BD27923}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE809BDD-921B-4A31-9BF4-B0834BD27923}.Debug|x64.ActiveCfg = Debug|x64
+		{CE809BDD-921B-4A31-9BF4-B0834BD27923}.Debug|x64.Build.0 = Debug|x64
+		{CE809BDD-921B-4A31-9BF4-B0834BD27923}.Release|x64.ActiveCfg = Release|x64
+		{CE809BDD-921B-4A31-9BF4-B0834BD27923}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E942550A-3235-49EC-9D61-3C67A8CC665D}
+	EndGlobalSection
+EndGlobal

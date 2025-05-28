@@ -1,0 +1,21 @@
+{
+  "name": "CharacterMapTracker",
+  "version": "0.1.0",
+  "namespace": "CharacterMapTracker",
+  "package": "CharacterMapTracker.dll",
+  "manifest_version": 1,
+
+  "description": "Track the map progression of your character!.",
+  "dependencies": {
+    "bh.blishhud": ">=0.5.2"
+  },
+  "url": "https://github.com/tiago-ga/CharacterMapTracker",
+  "contributors": [
+    {
+      "name": "Lothkru",
+      "username": "lothkru.6237"
+    }
+  ],
+  "enabled_without_gw2": false,
+  "directories": [ "map-tracker" ]
+}
