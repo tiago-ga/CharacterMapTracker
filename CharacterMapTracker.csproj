@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Models\MapData.cs" />
     <Compile Include="Module.cs" />
+    <Compile Include="Services\AllMapLoaders.cs" />
     <Compile Include="Services\PathingMarkerLoader.cs" />
     <Compile Include="Services\Gw2ApiHelper.cs" />
     <Compile Include="UI\MainWindow.cs" />
@@ -229,9 +230,7 @@
   <ItemGroup>
     <None Include="ref\_instructions.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\View\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="ref\icons\completeHeroPoint.png" />
     <Content Include="ref\icons\emptyHeart.png" />
@@ -243,6 +242,7 @@
     <Content Include="ref\icons\filledVista.png" />
     <Content Include="ref\icons\filledWaypoint.png" />
     <Content Include="ref\icons\incompleteHeroPoint.png" />
+    <Content Include="ref\markersMapIDs.txt" />
     <Content Include="ref\markers\map1015.xml" />
     <Content Include="ref\markers\map1021.xml" />
     <Content Include="ref\markers\map1022.xml" />

@@ -25,8 +25,8 @@ namespace CharacterMapTracker.Models {
         public int min_level { get; set; }
         public int max_level { get; set; }
         public float[] label_coord { get; set; }
-        public int[][] map_rect { get; set; }
-        public int[][] continent_rect { get; set; }
+        public float[][] map_rect { get; set; }
+        public float[][] continent_rect { get; set; }
 
         public Dictionary<string, PointOfInterest> points_of_interest { get; set; }
         public Dictionary<string, TaskInfo> tasks { get; set; }
@@ -59,6 +59,13 @@ namespace CharacterMapTracker.Models {
         public bool found { get; set; }
     }
 
+    public class RegionInfo {
+        public int id { get; set; }
+        public string name { get; set; }
+        public float[] label_coord { get; set; }
+        public float[] continent_rect { get; set; }
+        public List<MapInfo> maps { get; set; }
+    }
 
     public class MarkerWithApiData {
         public Marker Marker { get; set; }

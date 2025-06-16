@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using CharacterMapTracker.Models;
+using System.Collections.Generic;
 
 namespace CharacterMapTracker.Services {
 
@@ -25,6 +26,32 @@ namespace CharacterMapTracker.Services {
             var mapDetails = JsonConvert.DeserializeObject<MapDetails>(json);
 
             return mapDetails;
+        }
+
+        public static async Task<List<int>> GetAPIMapIds() {
+            var url = $"https://api.guildwars2.com/v2/maps/";
+
+            var json = await _httpClient.GetStringAsync(url);
+            var mapIds = JsonConvert.DeserializeObject<List<int>>(json);
+
+            return mapIds;
+        }
+
+        public static async Task<List<int>> GetRegionsIDsAsync() {
+            var url = $"https://api.guildwars2.com/v2/continents/1/floors/1/regions";
+
+            var json = await _httpClient.GetStringAsync(url);
+            var regionIds = JsonConvert.DeserializeObject<List<int>>(json);
+
+            return regionIds;
+        }
+        public static async Task<RegionInfo> GetContinent1RegionsAsync(int regionId) {
+            var url = $"https://api.guildwars2.com/v2/continents/1/floors/1/regions/{regionId}";
+
+            var json = await _httpClient.GetStringAsync(url);
+            var regions = JsonConvert.DeserializeObject<RegionInfo>(json);
+
+            return regions;
         }
 
     }

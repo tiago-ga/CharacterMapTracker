@@ -32,6 +32,7 @@ namespace CharacterMapTracker.UI {
             this.Id = "001_MapTracker";
             this.Location = new Point(300,300);
             this.SavesPosition = true;
+            this.CanCloseWithEscape = false;
             
             _contents = contents;
             // Start hidden — will show when icon clicked
@@ -252,13 +253,13 @@ namespace CharacterMapTracker.UI {
             var module = CharacterMapTrackerModule.Instance;
             if (module == null) return;
 
-            CharacterMapTrackerModule.Logger.Info($"SetMarkerFound: Attempting to save for: {marker.Category}{marker.Number} with Guid: {marker.Guid}");
+            //CharacterMapTrackerModule.Logger.Info($"SetMarkerFound: Attempting to save for: {marker.Category}{marker.Number} with Guid: {marker.Guid}");
             // Find the MarkerWithApiData that wraps this marker (by unique property, e.g., Guid)
             var entry = module._markerWithApiData.FirstOrDefault(mwad => mwad.Marker.Guid == marker.Guid);
             if (entry != null) {
                 entry.Marker.found = true;
 
-                CharacterMapTrackerModule.Logger.Info($"SetMarkerFound: checking if entry not null for {marker.Category}{marker.Number}");
+                //CharacterMapTrackerModule.Logger.Info($"SetMarkerFound: checking if entry not null for {marker.Category}{marker.Number}");
                 if (marker.Category == "landmark") {
                     entry.ApiPoi = _apiPoi;
                 }
@@ -274,7 +275,7 @@ namespace CharacterMapTracker.UI {
                 else if (marker.Category == "task") {
                     entry.ApiHeart = _apiHeart;
                 }
-                CharacterMapTrackerModule.Logger.Info($"SetMarkerFound: Right before calling SaveMarkersToJson");
+                //CharacterMapTrackerModule.Logger.Info($"SetMarkerFound: Right before calling SaveMarkersToJson");
                 module.SaveMarkersToJson();
             }
         }
@@ -283,12 +284,9 @@ namespace CharacterMapTracker.UI {
         public void UpdatePOIDisplay(Vector3 avatarPos, Vector2 playerCoord, MapInfo mapInfo, TaskInfo nearestHeart, Marker nearestHeartXML,
             PointOfInterest nearestPoi, Marker nearestPoiXml, PointOfInterest nearestWp, Marker nearestWpXml, PointOfInterest nearestVista, 
             Marker nearestVistaXml, SkillChallenge nearestHp, Marker nearesthpXml, float distPoi, float distWp, float distVista, float distHp, float distHeart) {
-            _mapLabel.Text = $"Current map: {mapInfo.name}";
-            //_avatarLabel.Text = $"Avatar: X={avatarPos.X:F2} Y={avatarPos.Y:F2} Z={avatarPos.Z:F2}";
-            _avatarLabel.Text = "";
-            if (nearestHeartXML!=null) { 
-                _avatarLabel.Text = $"{nearestHeartXML.Category}: Found?{nearestHeartXML.found}\nGUID:   {nearestHeartXML.Guid}";
-            }
+            _mapLabel.Text = $"Map {mapInfo.id}: {mapInfo.name}";
+            _avatarLabel.Text = $"Coords: X={avatarPos.X:F2} Y={avatarPos.Y:F2} Z={avatarPos.Z:F2}\n" +
+                $"CoordsMap: X={playerCoord.X:F2} Y={playerCoord.Y:F2}";
             
 
             xPanelLoc = 0;
