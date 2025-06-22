@@ -281,12 +281,13 @@ namespace CharacterMapTracker.UI {
         }
 
         // Display position of POI and Avatar
-        public void UpdatePOIDisplay(Vector3 avatarPos, Vector2 playerCoord, MapInfo mapInfo, TaskInfo nearestHeart, Marker nearestHeartXML,
+        public void UpdatePOIDisplay(Vector3 avatarPos, Vector2 playerCoord,Vector2 playerMapCoords, MapInfo mapInfo, TaskInfo nearestHeart, Marker nearestHeartXML,
             PointOfInterest nearestPoi, Marker nearestPoiXml, PointOfInterest nearestWp, Marker nearestWpXml, PointOfInterest nearestVista, 
             Marker nearestVistaXml, SkillChallenge nearestHp, Marker nearesthpXml, float distPoi, float distWp, float distVista, float distHp, float distHeart) {
-            _mapLabel.Text = $"Map {mapInfo.id}: {mapInfo.name}";
+            _mapLabel.Text = $"Map {mapInfo.id}: {mapInfo.name}  heart: {distHeart:F2}";
             _avatarLabel.Text = $"Coords: X={avatarPos.X:F2} Y={avatarPos.Y:F2} Z={avatarPos.Z:F2}\n" +
-                $"CoordsMap: X={playerCoord.X:F2} Y={playerCoord.Y:F2}";
+                $"CoordsCont: X={playerCoord.X:F2} Y={playerCoord.Y:F2}\n" +
+                $"CoordsMap : X={playerMapCoords.X:F2} Y={playerMapCoords.Y:F2}";
             
 
             xPanelLoc = 0;

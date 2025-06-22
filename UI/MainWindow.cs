@@ -9,6 +9,7 @@ using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Gw2Mumble;
+using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using CharacterMapTracker;
 using CharacterMapTracker.Models;
@@ -18,10 +19,12 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
+using System.Text.Json;
 //using System.Reflection.Emit;
 
 namespace CharacterMapTracker.UI {
@@ -39,7 +42,13 @@ namespace CharacterMapTracker.UI {
         //private List<RegionInfo> _regions;
 
         private bool _mapsLoading = false;
-       
+        public List<MarkerWithApiData> _markerWithApiData = new List<MarkerWithApiData>();
+        private MapInfo _currentMapInfo;
+
+        private JsonSerializerOptions _optionsJSON = new JsonSerializerOptions {
+            WriteIndented = true,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
 
         public MainWindow() : base(
             AsyncTexture2D.FromAssetId(155985),
@@ -518,7 +527,10 @@ namespace CharacterMapTracker.UI {
                 Parent = _rightTopPanel
             };
             saveButton.Click += (s, e) => {
-                //CharacterMapTrackerModule.Instance.SaveMarkersToJson();
+                //Not doing anything yet
+                //if (markers != null) {
+                //    SaveMarkersToJsonFromUI(markers);
+                //}
             };
 
             // Icons and found/total for each category
@@ -607,8 +619,9 @@ namespace CharacterMapTracker.UI {
                     ControlPadding = new Vector2(0, 5)
                 };
 
-                int yWithCheckBox = 0;
+                int yWithCheckBox = 30;
                 foreach (var m in markers.Where(m => m.Marker.Category == cat.Cat)) {
+
                     string textCheckBox = "";
                     if (cat.Cat == "landmark" || cat.Cat == "waypoint") {
                         textCheckBox = $"{m.Marker.Number?.ToString():F2}: {m.ApiPoi?.name ?? "Not discovered"}";
@@ -622,7 +635,11 @@ namespace CharacterMapTracker.UI {
                         textCheckBox = $"{m.Marker.Number?.ToString():F2}: Hero Point ({m.ApiHeroPoint?.id ?? "Not discovered"})";
                     }
                     else if (cat.Cat == "task") {
-                        textCheckBox = $"{m.Marker.Number?.ToString():F2}: {m.ApiHeart?.objective ?? "Not discovered"}";
+                        var subString = m.ApiHeart?.objective ?? "Not discovered";
+                        if (subString.Length>30) {
+                            subString = subString.Substring(0,30) + "...";
+                        }
+                        textCheckBox = $"{m.Marker.Number?.ToString():F2}: {subString}";
                     }
 
                     var cb = new Checkbox {
@@ -631,12 +648,13 @@ namespace CharacterMapTracker.UI {
                         Parent = contentPanel,
                         BasicTooltipText = $"Coords X: {m.Marker.X.ToString():F2} Y: {m.Marker.Y.ToString():F2} Z: {m.Marker.Z.ToString():F2}"
                     };
+
                     cb.CheckedChanged += (s, e) => {
                         m.Marker.found = cb.Checked;
                     };
 
                     var cbMap = new Checkbox {
-                        //Checked = m.Marker.found,
+                        //Checked = ,
                         Text = "Show on Map",
                         Parent = contentPanelRight,
                         BasicTooltipText = $"Shows a light blue circle around the objective in the world map"
@@ -647,7 +665,7 @@ namespace CharacterMapTracker.UI {
 
                     contentPanel.Size = new Point(outerPanel.Width / 2, yWithCheckBox);
                     contentPanelRight.Size = new Point(outerPanel.Width / 4, yWithCheckBox);
-                    yWithCheckBox += 27;
+                    yWithCheckBox += 30;
                 }
                 // Initial layout
                 UpdatePanelLayout();
@@ -670,14 +688,13 @@ namespace CharacterMapTracker.UI {
                     }
                     //}
                     UpdatePanelLayout();
-                    UpdatePanelLayout();
                 };
 
 
                 // Helper to update panel heights and re-layout
                 void UpdatePanelLayout() {
                     int contentHeight = outerPanel.Collapsed ? 0 : yWithCheckBox;
-                    outerPanel.Size = new Point(outerPanel.Width, 45 + contentHeight);
+                    outerPanel.Size = new Point(outerPanel.Width, 40 + contentHeight);
 
                     // Re-layout all panels
                     int y = 10;
@@ -686,9 +703,27 @@ namespace CharacterMapTracker.UI {
                         y += p.Height + 10;
                     }
                 }
+
             }
+        }
 
+        private void SaveMarkersToJsonFromUI(List<MarkerWithApiData> markerApiData) {
+            //Logger.Info($"Inside SaveMarkersToJson: Attempts to save for map ID: {_currentMapInfo.id}"); // For debugging
+            var currentCharacterName = GameService.Gw2Mumble.PlayerCharacter.Name ?? "UnknownCharacter";
+            var mapId = markerApiData[0].Marker.MapId;
 
+            string baseDir = CharacterMapTrackerModule.Instance.DirectoriesManager.GetFullDirectoryPath("map-tracker");
+
+            string jsonPath = Path.Combine(baseDir, $"Maps", $"{currentCharacterName}", $"progress_map{mapId}.json");
+            Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
+
+            // Check if MarkerWithApiData exists, create or overwrite
+            Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
+            File.WriteAllText(jsonPath, JsonSerializer.Serialize(markerApiData, _optionsJSON));
+            CharacterMapTrackerModule.Logger.Info($"Progress for map {mapId} saved to {jsonPath}");
+
+            // Invoke the Progress Saved event to update the MainWindow UI
+            OnMapProgressSaved();
         }
 
     }

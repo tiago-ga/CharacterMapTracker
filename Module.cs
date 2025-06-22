@@ -595,7 +595,9 @@ namespace CharacterMapTracker {
             var avatarPos = GameService.Gw2Mumble.PlayerCharacter.Position;                                 // returns Avatar Position of player 
             var playerCoord = new Vector2((float)playerCoordRaw.X, (float)playerCoordRaw.Y);                // Casts coords to float to match coords obtained in game API
 
-            _trackerWindow?.UpdatePOIDisplay(avatarPos, playerCoord, _currentMapInfo, null, null, null, null, null, null, null, null, null, null, -1, -1, -1, -1, -1);                              // Keeps updated the position of the player
+            var playerMapCoords = ContinentToMapCoords(playerCoord.X, playerCoord.Y, _currentMapDetails);
+
+            _trackerWindow?.UpdatePOIDisplay(avatarPos, playerCoord, playerMapCoords, _currentMapInfo, null, null, null, null, null, null, null, null, null, null, -1, -1, -1, -1, -1);                              // Keeps updated the position of the player
 
             // Initialize nearest POIs and markers
             PointOfInterest nearestPOI = null;
@@ -616,6 +618,7 @@ namespace CharacterMapTracker {
             float distVista = 999f;
             float distHp = 999f;
             float distHeart = 999f;
+            float distHeartApi = 9999f;
 
             // Track landmarks by player coords
             foreach (var poi in _landmarks) {
@@ -684,26 +687,6 @@ namespace CharacterMapTracker {
                 }
             }
 
-            // Track hearts by boundaries and check if player inside boundary
-            foreach (var heart in _hearts) {
-                if (IsPointInPolygon(playerCoord, heart.bounds.Select(b => new Vector2(b[0], b[1])).ToList())) {
-                    nearestHeart = heart;
-
-                    if (_currentXmlhearts != null) {
-                        foreach (var heartXML in _currentXmlhearts) {
-                            var heartXMLPos = new Vector3(heartXML.X, heartXML.Y, heartXML.Z);
-                            distHeart = Vector3.Distance(avatarPos, heartXMLPos);
-
-                            if (distHeart < 600f) {
-                                nearestHeartXML = heartXML;   // Update nearest POI from .xml (more relevance due to Z position)
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-
             // Track hero points by player coords
             foreach (var heroP in _heropoints) {
                 var heroCoord = new Vector2(heroP.coord[0], heroP.coord[1]);
@@ -727,9 +710,37 @@ namespace CharacterMapTracker {
                 }
             }
 
+            // Track hearts by boundaries and check if player inside boundary
+            foreach (var heart in _hearts) {
+                if (IsPointInPolygon(playerCoord, heart.bounds.Select(b => new Vector2(b[0], b[1])).ToList())) {
+                    nearestHeart = heart;
 
-            _trackerWindow?.UpdatePOIDisplay(avatarPos, playerCoord, _currentMapInfo, nearestHeart, nearestHeartXML, nearestPOI, nearestPoiXML, 
-                nearestWp, nearestWpXML, nearestVista, nearestVistaXML, nearestHP, nearestHpXML, distPOI, distWp, distVista, distHp, distHeart);       // Update position of player with the position of the POIs, hearts and hero points
+                    // takes the heart NPC location coords within the boundary converted to map coords
+                    var HeartApiCoordVector = ContinentToMapCoords(heart.coord[0], heart.coord[1], _currentMapDetails); 
+
+                    if (_currentXmlhearts != null) {
+                        foreach (var heartXML in _currentXmlhearts) {
+                            var heartXMLPos = new Vector3(heartXML.X, heartXML.Y, heartXML.Z);
+                            var heartXMLpos2D = new Vector2(heartXML.X, heartXML.Y);
+                            distHeart = Vector3.Distance(avatarPos, heartXMLPos);
+                            
+                            distHeartApi = Vector2.Distance(heartXMLpos2D, HeartApiCoordVector);    // distance between NPC and XML pos, not realtime player location
+
+                            // Compares the NPC location from the API to the XML coords since what matters in being inside the boundary
+                            if (distHeartApi<90f || distHeart<50f) {
+                                nearestHeartXML = heartXML; 
+                                //Logger.Info($"Current heart converted coords: X:{HeartApiCoordVector.X} Y:{HeartApiCoordVector.Y}");
+                                //Logger.Info($"Current heart XML coords: X:{heartXMLpos2D.X} Y:{heartXMLpos2D.Y}");
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+            
+            _trackerWindow?.UpdatePOIDisplay(avatarPos, playerCoord, playerMapCoords, _currentMapInfo, nearestHeart, nearestHeartXML, nearestPOI, nearestPoiXML, 
+                nearestWp, nearestWpXML, nearestVista, nearestVistaXML, nearestHP, nearestHpXML, distPOI, distWp, distVista, distHp, distHeartApi);       // Update position of player with the position of the POIs, hearts and hero points
 
         }
 
@@ -744,7 +755,29 @@ namespace CharacterMapTracker {
             }
             return inside;
         }
-        
+
+        public static Vector2 ContinentToMapCoords(float continentX, float continentY, MapDetails mapDetails) {
+            var mapRect = mapDetails.map_rect;
+            var continentRect = mapDetails.continent_rect;
+
+            float mapMinX = mapRect[0][0];
+            float mapMinY = mapRect[0][1];
+            float mapMaxX = mapRect[1][0];
+            float mapMaxY = mapRect[1][1];
+
+            float contMinX = continentRect[0][0];
+            float contMinY = continentRect[0][1];
+            float contMaxX = continentRect[1][0];
+            float contMaxY = continentRect[1][1];
+
+            float avatarX = (continentX - contMinX) * (mapMaxX - mapMinX) / (contMaxX - contMinX) + mapMinX;
+            float avatarY = (continentY - contMinY) * (mapMaxY - mapMinY) / (contMaxY - contMinY) + mapMinY;
+
+            avatarX = avatarX / 39.3695f;
+            avatarY = avatarY / -39.3695f;
+            return new Vector2(avatarX, avatarY);
+        }
+
         public void SaveMarkersToJson() {
             //Logger.Info($"Inside SaveMarkersToJson: Attempts to save for map ID: {_currentMapInfo.id}"); // For debugging
 
